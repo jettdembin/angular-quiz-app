@@ -6,38 +6,28 @@ import { QuestionService } from './question.service';
   selector: 'app-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css'],
+  providers: [QuestionService],
 })
 export class QuestionComponent implements OnInit {
-  private questions: {
-    question: string;
-    option1: string;
-    option2: string;
-    option3: string;
-    option4: string;
-    answer: string;
-  }[] = [];
-
+  questions: QuestionService;
+  optionOne: string;
+  optionTwo: string;
+  optionThree: string;
+  optionFour: string;
+  answer: string;
+  index: number = 0;
   constructor(
     private router: Router,
     private questionService: QuestionService
   ) {}
 
-  ngOnInit(): void {}
-
-  onNext() {
-    this.router.navigate([`/question/${this.questions.length}`]);
+  ngOnInit() {
+    this.questions = this.questionService;
+    this.optionOne = this.questions.getNextQuestion(this.index).option1;
+    this.optionTwo = this.questions.getNextQuestion(this.index).option2;
+    this.optionThree = this.questions.getNextQuestion(this.index).option3;
+    this.optionFour = this.questions.getNextQuestion(this.index).option4;
   }
 
-  //function to shuffle questions before start of quiz
-  // function randomArrayShuffle(array) {
-  //   let currentIndex = array.length, temporaryValue, randomIndex;
-  //   while (0 !== currentIndex) {
-  //     randomIndex = Math.floor(Math.random() * currentIndex);
-  //     currentIndex -= 1;
-  //     temporaryValue = array[currentIndex];
-  //     array[currentIndex] = array[randomIndex];
-  //     array[randomIndex] = temporaryValue;
-  //   }
-  //   return array;
-  // }
+  onNext() {}
 }

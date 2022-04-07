@@ -6,25 +6,45 @@
       <div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <input type="radio" name="question{{ index + 1 }}" value="1" />
+            <input
+              type="radio"
+              name="question{{ index + 1 }}"
+              value="1"
+              #inputAnswer
+            />
             <label for="question{{ index + 1 }}">{{ optionOne }}</label>
           </div>
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <input type="radio" name="question{{ index + 1 }}" value="2" />
+            <input
+              type="radio"
+              name="question{{ index + 1 }}"
+              value="2"
+              #inputAnswer
+            />
             <label for="question{{ index + 1 }}">{{ optionTwo }}</label>
           </div>
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <input type="radio" name="question{{ index + 1 }}" value="3" />
+            <input
+              type="radio"
+              name="question{{ index + 1 }}"
+              value="3"
+              #inputAnswer
+            />
             <label for="question{{ index + 1 }}">{{ optionThree }}</label>
           </div>
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <input type="radio" name="question{{ index + 1 }}" value="4" />
+            <input
+              type="radio"
+              name="question{{ index + 1 }}"
+              value="4"
+              #inputAnswer
+            />
             <label for="question{{ index + 1 }}">{{ optionFour }}</label>
           </div>
         </div>
@@ -50,7 +70,13 @@
           Next
         </button>
         <ng-template [ngIf]="index + 1 === questions.questions.length"
-          ><button style="width: 45%" class="btn btn-success">Submit</button>
+          ><button
+            style="width: 45%"
+            class="btn btn-success"
+            (click)="onSubmit()"
+          >
+            Submit
+          </button>
         </ng-template>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { QuestionService } from './question.service';
 
@@ -9,6 +9,8 @@ import { QuestionService } from './question.service';
   providers: [QuestionService],
 })
 export class QuestionComponent implements OnInit {
+  @ViewChild('inputAnswer') inputAnswer; // accessing the reference element
+
   questions: QuestionService;
   question: string;
   optionOne: string;
@@ -18,7 +20,9 @@ export class QuestionComponent implements OnInit {
   answersArray = [];
   selectedAnswersArray = [];
   selectedAnwer: string;
-  index: number = 0;
+  index = 0;
+  checked = false;
+  score = 0;
 
   options: any;
 
@@ -39,24 +43,59 @@ export class QuestionComponent implements OnInit {
     }
   }
 
+  checkAnswer() {
+    if (this.checked) {
+      this.options = document.querySelectorAll(
+        `input[name="question${this.index + 1}"]`
+      );
+      for (const option of this.options) {
+        if (option.checked) {
+          this.selectedAnwer = option.value;
+          this.selectedAnswersArray[this.index]
+            ? this.selectedAnswersArray.splice(
+                this.index,
+                1,
+                this.selectedAnwer
+              )
+            : this.selectedAnswersArray.push(this.selectedAnwer);
+        }
+      }
+      if (this.index < this.questions.questions.length - 1) {
+        this.index++;
+        this.question = this.questions.getQuestion(this.index).question;
+        this.optionOne = this.questions.getQuestion(this.index).option1;
+        this.optionTwo = this.questions.getQuestion(this.index).option2;
+        this.optionThree = this.questions.getQuestion(this.index).option3;
+        this.optionFour = this.questions.getQuestion(this.index).option4;
+      }
+    } else {
+      alert('Please select an answer before proceeding');
+    }
+  }
+
   onNext() {
-    this.options = document.querySelectorAll(
-      `input[name="question${this.index + 1}"]`
-    );
-    for (const option of this.options) {
-      if (option.checked) {
-        this.selectedAnwer = option.value;
-        this.selectedAnswersArray.push(this.selectedAnwer);
+    document.querySelector(`input[name="question${this.index + 1}"]:checked`)
+      ? (this.checked = true)
+      : (this.checked = false);
+    this.checkAnswer();
+    this.checked = false;
+    this.handleClear();
+  }
+
+  onSubmit() {
+    document.querySelector(`input[name="question${this.index + 1}"]:checked`)
+      ? (this.checked = true)
+      : (this.checked = false);
+    this.checkAnswer();
+    if (this.selectedAnswersArray.length === this.questions.questions.length) {
+      // this.router.navigate(['/result']);
+      for (let i = 0; i < this.questions.questions.length; i++) {
+        if (this.selectedAnswersArray[i] === this.answersArray[i]) {
+          this.score++;
+        }
       }
     }
-    if (this.index < this.questions.questions.length - 1) {
-      this.index++;
-      this.question = this.questions.getQuestion(this.index).question;
-      this.optionOne = this.questions.getQuestion(this.index).option1;
-      this.optionTwo = this.questions.getQuestion(this.index).option2;
-      this.optionThree = this.questions.getQuestion(this.index).option3;
-      this.optionFour = this.questions.getQuestion(this.index).option4;
-    }
+    console.log(this.selectedAnswersArray, this.score);
   }
 
   onPrevious() {
@@ -68,5 +107,10 @@ export class QuestionComponent implements OnInit {
       this.optionThree = this.questions.getQuestion(this.index).option3;
       this.optionFour = this.questions.getQuestion(this.index).option4;
     }
+  }
+
+  handleClear() {
+    //clear inputs before proceeding
+    this.inputAnswer.nativeElement.checked = false;
   }
 }

@@ -54,11 +54,8 @@ export class QuestionService {
       answer: answer,
     });
   }
-  getNextQuestion(index: number) {
+  getQuestion(index: number) {
     return this.questions[index];
-  }
-  getPreviousQuestion(index: number) {
-    return this.questions[index - 1];
   }
   //function to shuffle questions before start of quiz
   // randomArrayShuffle(array: []) {

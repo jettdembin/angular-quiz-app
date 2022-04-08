@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { QuestionService } from './question.service';
 
@@ -9,8 +9,6 @@ import { QuestionService } from './question.service';
   providers: [QuestionService],
 })
 export class QuestionComponent implements OnInit {
-  @ViewChild('inputAnswer') inputAnswer; // accessing the reference element
-
   questions: QuestionService;
   question: string;
   optionOne: string;
@@ -23,6 +21,7 @@ export class QuestionComponent implements OnInit {
   index = 0;
   checked = false;
   score = 0;
+  highestQuestionNumber = 1;
 
   options: any;
 
@@ -79,7 +78,11 @@ export class QuestionComponent implements OnInit {
       : (this.checked = false);
     this.checkAnswer();
     this.checked = false;
-    this.handleClear();
+    if (this.index <= this.highestQuestionNumber) {
+      this.handleClearOfInputs();
+    }
+    this.highestQuestionNumber++;
+    this.checkIfPreviouslyAnswered();
   }
 
   onSubmit() {
@@ -94,13 +97,20 @@ export class QuestionComponent implements OnInit {
           this.score++;
         }
       }
+      alert(
+        "You've got " +
+          this.score +
+          ' out of ' +
+          this.questions.questions.length
+      );
     }
-    console.log(this.selectedAnswersArray, this.score);
   }
 
   onPrevious() {
+    this.highestQuestionNumber--;
     if (this.index) {
       this.index--;
+      this.checkIfPreviouslyAnswered();
       this.question = this.questions.getQuestion(this.index).question;
       this.optionOne = this.questions.getQuestion(this.index).option1;
       this.optionTwo = this.questions.getQuestion(this.index).option2;
@@ -109,8 +119,19 @@ export class QuestionComponent implements OnInit {
     }
   }
 
-  handleClear() {
-    //clear inputs before proceeding
-    this.inputAnswer.nativeElement.checked = false;
+  checkIfPreviouslyAnswered() {
+    if (this.selectedAnswersArray[this.index]) {
+      for (let i = 0; i < this.options.length; i++) {
+        if (this.options[i].value === this.selectedAnswersArray[this.index]) {
+          this.options[i].checked = true;
+        }
+      }
+    }
+  }
+
+  handleClearOfInputs() {
+    this.options.forEach((element: any) => {
+      element.checked = false;
+    });
   }
 }

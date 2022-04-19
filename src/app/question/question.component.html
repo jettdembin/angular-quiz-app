@@ -1,64 +1,44 @@
-<div class="container-sm">
-  <div class="row">
-    <div class="col-md-12">
-      <h1 class="mt-5">Question {{ index + 1 }}</h1>
-      <h4 class="mt-3">{{ question }}</h4>
-      <div class="my-5">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <input type="radio" name="question{{ index + 1 }}" value="1" />
-            <label for="question{{ index + 1 }}">{{ optionOne }}</label>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <input type="radio" name="question{{ index + 1 }}" value="2" />
-            <label for="question{{ index + 1 }}">{{ optionTwo }}</label>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <input type="radio" name="question{{ index + 1 }}" value="3" />
-            <label for="question{{ index + 1 }}">{{ optionThree }}</label>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <input type="radio" name="question{{ index + 1 }}" value="4" />
-            <label for="question{{ index + 1 }}">{{ optionFour }}</label>
-          </div>
-        </div>
-      </div>
-      <div class="mx-auto" style="width: 55%">
-        <button
-          class="btn"
-          style="width: 45%; margin-right: 2rem"
-          [ngClass]="{ 'btn-danger': index > 0, 'btn-light': !index }"
-          [ngStyle]="{
-            'pointer-events': index ? 'auto' : 'none'
-          }"
-          (click)="onPrevious()"
-        >
-          Back
-        </button>
-        <button
-          *ngIf="index + 1 < questions.questions.length"
-          class="btn btn-success"
-          style="width: 45%"
-          (click)="onNext()"
-        >
-          Next
-        </button>
-        <ng-template [ngIf]="index + 1 === questions.questions.length"
-          ><button
-            style="width: 45%"
-            class="btn btn-success"
-            (click)="onSubmit()"
-          >
-            Submit
-          </button>
-        </ng-template>
-      </div>
+<h1 class="mt-5">Question {{ index + 1 }}</h1>
+<h4 class="mt-3">{{ question }}</h4>
+<div class="my-5">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <input type="radio" name="question{{ index + 1 }}" value="1" />
+      <label for="question{{ index + 1 }}">{{ optionOne }}</label>
     </div>
   </div>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <input type="radio" name="question{{ index + 1 }}" value="2" />
+      <label for="question{{ index + 1 }}">{{ optionTwo }}</label>
+    </div>
+  </div>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <input type="radio" name="question{{ index + 1 }}" value="3" />
+      <label for="question{{ index + 1 }}">{{ optionThree }}</label>
+    </div>
+  </div>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <input type="radio" name="question{{ index + 1 }}" value="4" />
+      <label for="question{{ index + 1 }}">{{ optionFour }}</label>
+    </div>
+  </div>
+</div>
+<div class="mx-auto" style="width: 55%">
+  <button class="btn" style="width: 45%; margin-right: 2rem"
+    [ngClass]="{ 'btn-danger': index > 0, 'btn-light': !index }" [ngStyle]="{
+            'pointer-events': index ? 'auto' : 'none'
+          }" (click)="onPrevious()">
+    Back
+  </button>
+  <button *ngIf="index + 1 < questions.questions.length" class="btn btn-success" style="width: 45%" (click)="onNext()">
+    Next
+  </button>
+  <ng-template [ngIf]="index + 1 === questions.questions.length"><button style="width: 45%" class="btn btn-success"
+      (click)="onSubmit()">
+      Submit
+    </button>
+  </ng-template>
 </div>

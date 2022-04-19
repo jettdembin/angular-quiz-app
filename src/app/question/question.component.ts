@@ -91,19 +91,14 @@ export class QuestionComponent implements OnInit {
       : (this.checked = false);
     this.checkAnswer();
     if (this.selectedAnswersArray.length === this.questions.questions.length) {
-      // this.router.navigate(['/result']);
       for (let i = 0; i < this.questions.questions.length; i++) {
         if (this.selectedAnswersArray[i] === this.answersArray[i]) {
           this.score++;
         }
       }
-      alert(
-        "You've got " +
-          this.score +
-          ' out of ' +
-          this.questions.questions.length
-      );
     }
+    console.log(this.score);
+    this.questionService.testSubmitted.emit(this.score);
   }
 
   onPrevious() {

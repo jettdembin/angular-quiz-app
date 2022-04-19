@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuestionService {
+  testSubmitted = new EventEmitter<number>();
+
   questions = [
     {
       question: 'Which of the following is not a real eCommerce platform?',
